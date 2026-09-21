@@ -284,6 +284,9 @@
     </div>
 
     <form id="quote-form">
+      <input type="hidden" name="access_key" value="d5d7d047-4dab-4b73-af26-8f4515f28912">
+      <input type="hidden" name="subject" value="New plant hire quote request">
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
       <div class="row2">
         <div class="field"><label for="name">Full name</label><input id="name" name="name" type="text" required></div>
         <div class="field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" required></div>
@@ -306,7 +309,7 @@
       </div>
       <div class="field"><label for="message">Job details</label><textarea id="message" name="message" rows="4" placeholder="Dates needed, size of job, access to site..."></textarea></div>
       <button class="submit-btn" type="submit">Send enquiry</button>
-      <p class="form-note" id="form-status">We'll open your email client so you can send this straight to our team.</p>
+      <p class="form-note" id="form-status">We'll get back to you the same working day.</p>
     </form>
   </div>
 </section>
@@ -322,23 +325,35 @@
 (function(){
   var form = document.getElementById('quote-form');
   var status = document.getElementById('form-status');
+  var submitBtn = form.querySelector('.submit-btn');
+
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    var d = new FormData(form);
-    var lines = [
-      'Name: ' + d.get('name'),
-      'Phone: ' + d.get('phone'),
-      'Email: ' + d.get('email'),
-      'Site postcode: ' + d.get('postcode'),
-      'Equipment needed: ' + d.get('equipment'),
-      '',
-      'Job details:',
-      d.get('message') || '(none provided)'
-    ].join('\n');
-    var subject = encodeURIComponent('Plant hire quote request — ' + d.get('postcode'));
-    var body = encodeURIComponent(lines);
-    window.location.href = 'mailto:enquiries@surreyandsussexplanthire.com?subject=' + subject + '&body=' + body;
-    status.textContent = 'Opening your email client to send this to enquiries@surreyandsussexplanthire.com...';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    status.textContent = '';
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(Object.fromEntries(new FormData(form)))
+    })
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        if (data.success) {
+          form.reset();
+          status.textContent = "Thanks — your enquiry's been sent. We'll get back to you the same working day.";
+        } else {
+          status.textContent = 'Something went wrong sending that. Please call 01234 567 890 or email us directly.';
+        }
+      })
+      .catch(function(){
+        status.textContent = 'Something went wrong sending that. Please call 01234 567 890 or email us directly.';
+      })
+      .finally(function(){
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send enquiry';
+      });
   });
 })();
 </script>
