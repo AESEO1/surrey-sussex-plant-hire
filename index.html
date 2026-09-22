@@ -177,7 +177,7 @@
       <div class="mark">SS</div>
       <div class="name">Surrey &amp; Sussex<small>Plant Hire</small></div>
     </div>
-    <a class="call-btn" href="tel:+441234567890">Call 01234 567890</a>
+    <a class="call-btn" href="#quote">Get a quote</a>
   </div>
 </header>
 
@@ -277,7 +277,6 @@
       <h2 style="font-size:clamp(1.8rem,3.6vw,2.6rem);margin-top:4px;">Request a quote</h2>
       <p style="color:var(--muted);margin-top:10px;">Tell us what you need and when — we'll come back with pricing and availability the same day.</p>
       <dl>
-        <div><dt>Phone</dt><dd><a href="tel:+441234567890">01234 567 890</a></dd></div>
         <div><dt>Email</dt><dd><a href="mailto:enquiries@surreyandsussexplanthire.com">enquiries@surreyandsussexplanthire.com</a></dd></div>
         <div><dt>Hours</dt><dd style="font-weight:500;font-size:1rem;">Mon&ndash;Fri 7am&ndash;5:30pm, Sat 8am&ndash;12pm</dd></div>
       </dl>
@@ -317,7 +316,7 @@
 <footer class="site">
   <div class="wrap footer-inner">
     <span>&copy; 2026 Surrey &amp; Sussex Plant Hire. All rights reserved.</span>
-    <span>enquiries@surreyandsussexplanthire.com · 01234 567 890</span>
+    <span>enquiries@surreyandsussexplanthire.com</span>
   </div>
 </footer>
 
@@ -344,11 +343,11 @@
           form.reset();
           status.textContent = "Thanks — your enquiry's been sent. We'll get back to you the same working day.";
         } else {
-          status.textContent = 'Something went wrong sending that. Please call 01234 567 890 or email us directly.';
+          status.textContent = 'Something went wrong sending that. Please email us directly.';
         }
       })
       .catch(function(){
-        status.textContent = 'Something went wrong sending that. Please call 01234 567 890 or email us directly.';
+        status.textContent = 'Something went wrong sending that. Please email us directly.';
       })
       .finally(function(){
         submitBtn.disabled = false;
